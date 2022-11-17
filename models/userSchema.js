@@ -7,14 +7,14 @@ const userSchema = mongoose.Schema(
         password: String,
         address: String,
         phone: String,
-        avatar: String,
+        avatar: {type: String, default: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5NWV4HIz5cimRlDHWgvFoc1uzSIBhVwQuxQ&usqp=CAU'},
         code: String,
         token: String,
         birthDay: Date,
         wrongCount: Number,
         timeLock: Date,
         loginExpired: Date,
-        role: { type: String, default: 'user' }
+        role: { type: String, enum:['user', 'admin', 'staff'], default: 'user' }
     }, { collection: 'users' }
 )
 

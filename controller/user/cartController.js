@@ -1,4 +1,5 @@
 const cartsModel = require("../../models/cartsSchema");
+const productModel = require("../../models/productSchema");
 
 exports.getListCarts = async function (req, res) {
     try {
@@ -18,6 +19,9 @@ exports.addToCart = async function (req, res) {
     try {
         let { idProduct, quantity } = req.body;
         let userId = req.user._id; 
+        const product = await productModel.findOne({_id: idProduct});
+        if(product.storage < quantity) return res.status(400).json({message: `only has ${product.storage} in storage`})
+
         let isExist = await cartsModel.findOne({
             idUser: userId,
             'listProduct.idProduct': idProduct

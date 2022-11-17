@@ -1,8 +1,9 @@
-const express = require('express')
-const router = express.Router()
-const adminController = require('../controller/admin/adminController')
-const path = require('path')
-const multer = require('multer')
+const express = require('express');
+const router = express.Router();
+const adminController = require('../controller/admin/userController');
+const path = require('path');
+const multer = require('multer');
+
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, './views/assets/img/avatar')
@@ -18,8 +19,8 @@ const upload = multer({ storage: storage })
 router.get('/', adminController.getListUser)
 router.get('/:idUser', adminController.getInforUserSelect)
 router.post('/', adminController.testCreateUser)
-router.put('/:idUser', upload.single('avatar'), adminController.updateUserInfor)
+router.put('/', upload.single('avatar'), adminController.updateUserInfor)
+router.put('/:idUser', adminController.updateUserRole)
 router.delete('/:idUser', adminController.deleteUser)
-
 
 module.exports = router

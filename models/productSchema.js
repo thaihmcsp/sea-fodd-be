@@ -2,15 +2,13 @@ const mongoose = require('./dbConnect')
 
 const productSchema = mongoose.Schema(
     {
-        idProductCode: { type: String, ref: 'productCode' },
+        idCategory: { type: String, ref: 'categories' },
         price: Number,
-        priceRange: String,
         storage: Number,
-        productPic: [{ type: String }],
-        productType: String,
-        size: String,
+        productPic: [{ type: String, default: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYTzj3XRf3wprzGJD2x83XA59JHEuqsXBWOLg1U5zD-w&s' }],
         createDate: Date,
-        countSold: Number,
+        productName: String,
+        isActive: { type: Boolean, default: true}
     }, { collection: 'product' }
 )
 

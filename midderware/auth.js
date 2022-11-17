@@ -1,15 +1,17 @@
-const userModel = require('../models/userSchema')
-const jwt = require('jsonwebtoken')
+const userModel = require('../models/userSchema');
+const jwt = require('jsonwebtoken');
+const jwtPass = process.env.jwt;
 
 async function checkRoleUser(req, res, next) {
     try {
         let token = req.headers.authorization
         if (token) {
-            let id = jwt.verify(token, 'projectFEB1').id
+            let id = jwt.verify(token, jwtPass).id
             let checkIdUser = await userModel.findOne(
                 { _id: id }
             )
             if (checkIdUser.role == "admin") {
+                req.user = checkIdUser
                 next()
             } else {
                 res.json({ mess: "you dont have a role" })
@@ -34,7 +36,7 @@ async function checkToken(req, res, next) {
             { token: token }
         )
         if (searchTokenUser) {
-            let id = jwt.verify(token, 'testNodemailer')
+            let id = jwt.verify(token, jwtPass)
             if (id) {
                 delete searchTokenUser._doc.token
                 delete searchTokenUser._doc.password

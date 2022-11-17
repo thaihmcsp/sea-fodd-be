@@ -6,6 +6,7 @@ const { transporter, generateCode, sendEMail, sendCodeMail } = require("../../ut
 const { CodeCheck } = require("../../utils/utils");
 const codeCheck = new CodeCheck();
 const jwt = require('jsonwebtoken');
+const jwtPass = process.env.jwt;
 
 exports.register = async function (req, res) {
     try {
@@ -77,12 +78,12 @@ exports.login = async (req, res) => {
                         return res.json({ status: 'undifind password' });
                     }
                 } else {
-                    let token = jwt.sign({ id: user._id, role: user.role }, "testNodemailer", { expiresIn: 3600*1000*24*30 });
+                    let token = jwt.sign({ id: user._id, role: user.role }, jwtPass, { expiresIn: 3600*1000*24*90 });
                     await userModel.updateOne({ _id: user._id }, {
                         token: token, wrongCount: 0,
-                        loginExpired: new Date(Date.now() + 3600*1000*24*30)
+                        loginExpired: new Date(Date.now() + 3600*1000*24*90)
                     });
-                    res.cookie("user", token, { expires: new Date(Date.now() + 3600*1000*24*30) });
+                    res.cookie("user", token, { expires: new Date(Date.now() + 3600*1000*24*90) });
                     const {token: currentToken, password: currentPassword, ...other} = user._doc;
                     res.json({
                         data: { token: token, userData: other },

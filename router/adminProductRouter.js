@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const adminController = require('../controller/admin/adminController')
+const productController = require('../controller/admin/productController')
 const multer = require('multer')
 const path = require('path')
 const storage = multer.diskStorage({
@@ -14,12 +14,11 @@ const storage = multer.diskStorage({
         )
     }
 })
-const upload = multer({ storage: storage })
-router.get('/list', adminController.getListProduct)
-router.get('/:idProduct', adminController.getInforProduct)
-router.get('/product/:idProductCode', adminController.getListFollowProductCode)
-router.post('/', upload.single('productPic'), adminController.createProduct)
-router.put('/:idProduct', upload.single('productPic'), adminController.editProduct)
-router.delete('/:idProduct', adminController.deleteProduct)
+const upload = multer({ storage: storage });
+router.get('/list', productController.getListProduct);
+router.get('/:idProduct', productController.getInforProduct);
+router.post('/', upload.single('productPic'), productController.createProduct);
+router.put('/:idProduct', upload.single('productPic'), productController.editProduct);
+router.delete('/:idProduct', productController.deleteProduct);
 
-module.exports = router
+module.exports = router;

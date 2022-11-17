@@ -17,6 +17,7 @@ const sliderModel = require("../../models/sliderSchema");
 const commentModel = require("../../models/commentSchema");
 const iconModel = require("../../models/iconSchema");
 const bcrypt = require("bcryptjs");
+const jwtPass = process.env.jwt;
 
 exports.logOut = async function (req, res) {
     try {
@@ -141,37 +142,6 @@ exports.editUserInfor = async function (req, res) {
         res.json(userEdit);
     } catch (error) {
         res.json(168, error);
-    }
-};
-
-exports.getListProdutc = async function (req, res) {
-    try {
-        let listCategories = await categoriesModel.find();
-        let listProductList = await productModel.find();
-        let listProductCode = await producCodeModel.find();
-        res.json({ listProductList, listProductCode, listCategories });
-    } catch (error) {
-        console.log(error);
-        res.json(error);
-    }
-};
-
-exports.checkIdProduct = async function (req, res) {
-    try {
-        let productCodeSelect = await producCodeModel.find({
-            productName: req.query.productName,
-        });
-        let idProductCodecheck = productCodeSelect._id;
-        let searchIdProduct = await productModel.find({
-            idProductCode: idProductCodecheck,
-            color: req.body.color,
-            ram: req.body.ram,
-            cameraProduct: req.body.cameraProduct,
-        });
-        res.json(searchIdProduct);
-    } catch (error) {
-        console.log(error);
-        res.json(error);
     }
 };
 
@@ -417,95 +387,6 @@ exports.getListSearchInput = async function (req, res) {
     }
 };
 
-exports.getInforListProductCode = async function (req, res) {
-    try {
-        let getProductCode = await producCodeModel
-            .findOne({ productName: req.query.productName })
-            .populate("idCategories");
-        let idProductCodeSelect = getProductCode._id;
-        let listProductFollow = await productModel
-            .find({ idProductCode: idProductCodeSelect })
-            .populate("icon");
-        let listComment = await commentModel
-            .find({ idProductCode: idProductCodeSelect })
-            .populate("idUser");
-        getProductCode._doc.dataProduct = listProductFollow;
-        getProductCode._doc.dataComment = listComment;
-        res.json({ getProductCode });
-    } catch (error) {
-        console.log(error);
-        res.json(error);
-    }
-};
-
-exports.followOrderUser = async function (req, res) {
-    try {
-        let listOrderUser = await ordersModel
-            .find({ idUser: req.user._id })
-            .populate({ path: "listProduct.idProduct", populate: { path: 'idProductCode' } })
-        res.json(listOrderUser);
-    } catch (error) {
-        console.log(error);
-    }
-};
-
-exports.getInforOrderSelect = async function (req, res) {
-    try {
-        let inforOrderSelect = await ordersModel
-            .findOne({ _id: req.params.idOrder })
-            .populate({ path: "listProduct.idProduct", populate: { path: 'idProductCode' } });
-        res.json(inforOrderSelect);
-    } catch (error) {
-        console.log(error);
-        res.json(error);
-    }
-};
-
-exports.createOrderUser = async function (req, res) {
-    try {
-        let listProduct = await cartsModel.find({ idUser: req.user._id });
-        let listProductOrder;
-        listProductOrder = listProduct[0].listProduct;
-        let newOrderUser = await ordersModel.create({
-            idUser: req.user._id,
-            address: req.body.address,
-            total: req.body.total,
-            phone: req.body.phone,
-            listProduct: listProductOrder,
-            status: "pending",
-        });
-        let olderQuality = listProduct[0].listProduct;
-        for (let elm of olderQuality) {
-            let CartsQuality = elm.quantity;
-            let productAfterUpdate = await productModel.findOneAndUpdate(
-                { _id: elm.idProduct },
-                { $inc: { storage: -CartsQuality } }, { new: true }
-            );
-            await productAfterUpdate.checkStorage()
-        }
-        let clearCartsUser = await cartsModel.updateOne(
-            { idUser: req.user._id },
-            { listProduct: [] }
-        );
-        res.json(newOrderUser);
-    } catch (error) {
-        console.log(error);
-        res.json(error);
-    }
-};
-
-exports.deleteOrderUser = async function (req, res) {
-    try {
-        let dropOrderUser = await ordersModel.deleteOne({
-            _id: req.params.idOrder,
-        });
-        res.json(dropOrderUser);
-    } catch (error) {
-        console.log(error);
-        res.json(error);
-    }
-};
-
 exports.createCommentProduct = async function (req, res) {
     try {
         let productSelecter = await producCodeModel.findOne({
@@ -561,14 +442,14 @@ exports.refeshToken = async function (req, res) {
             { token: token }
         )
         if (searchTokenUser) {
-            const newToken = jwt.sign({ id: searchTokenUser._id }, 'projectFEB1', { expiresIn: 10 })
+            const newToken = jwt.sign({ id: searchTokenUser._id }, jwtPass, { expiresIn: '90d' })
             console.log(52, token);
             await userModel.findOneAndUpdate({ _id: searchTokenUser._id }, { token: newToken })
-            res.json({ token: newToken })
+            res.json({ token: newToken });
         }
     } catch (error) {
         console.log(error);
-        res.json(error)
+        res.json(error);
     }
 }
 

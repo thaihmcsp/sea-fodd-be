@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const adminController = require("../controller/admin/adminController");
+const categoryController = require("../controller/admin/categoryController");
 const multer = require("multer");
 const path = require("path");
 const storage = multer.diskStorage({
@@ -15,11 +15,11 @@ const storage = multer.diskStorage({
   },
 });
 const upload = multer({ storage: storage });
-router.get("/", adminController.getListCategories);
-router.get('/:idCategories', adminController.getInforCategories)
-router.post("/", upload.single("thumpNail"), adminController.createCategories);
-router.put("/:idCategories", upload.single("thumpNail"), adminController.editCategories
+router.get("/", categoryController.getListCategories);
+router.get('/:idCategories', categoryController.getInforCategories)
+router.post("/", upload.single("thumpNail"), categoryController.createCategories);
+router.put("/:idCategories", upload.single("thumpNail"), categoryController.editCategories
 );
-router.delete("/:idCategories", adminController.deleteCategories);
+router.delete("/:idCategories", categoryController.deleteCategories);
 
 module.exports = router;

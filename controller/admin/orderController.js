@@ -5,7 +5,6 @@ exports.getListOrderAd = async function (req, res) {
         let listOrderAd = await ordersModel.find()
             .populate({ path: "listProduct.idProduct" })
             .populate({ path: "idUser", select: ['-token', '-password'] });
-
         res.status(200).json(listOrderAd);
     } catch (error) {
         res.json(error)

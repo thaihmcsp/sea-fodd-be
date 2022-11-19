@@ -31,9 +31,9 @@ exports.register = async function (req, res) {
             }
         }
         
+        res.status(400).json({message: 'password must have at least 8 character with uppercase, lowercase, number and special character'});
     } catch (error) {
-        console.log(31, error);
-        res.json(error);
+        res.status(500).json(error);
     }
 };
 
@@ -78,7 +78,7 @@ exports.login = async (req, res) => {
                         return res.json({ status: 'undifind password' });
                     }
                 } else {
-                    let token = jwt.sign({ id: user._id, role: user.role }, jwtPass, { expiresIn: 3600*1000*24*90 });
+                    let token = jwt.sign({ id: user._id }, jwtPass, { expiresIn: 3600*1000*24*90 });
                     await userModel.updateOne({ _id: user._id }, {
                         token: token, wrongCount: 0,
                         loginExpired: new Date(Date.now() + 3600*1000*24*90)

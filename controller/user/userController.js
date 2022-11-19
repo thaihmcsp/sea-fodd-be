@@ -10,12 +10,9 @@ const multer = require("multer");
 const upload = multer({ dest: "upload/" });
 const jwt = require("jsonwebtoken");
 const productModel = require("../../models/productSchema");
-const producCodeModel = require("../../models/productCodeSchema");
 const ordersModel = require("../../models/orderSchema");
 const categoriesModel = require("../../models/categoriesSchema");
-const sliderModel = require("../../models/sliderSchema");
 const commentModel = require("../../models/commentSchema");
-const iconModel = require("../../models/iconSchema");
 const bcrypt = require("bcryptjs");
 const jwtPass = process.env.jwt;
 

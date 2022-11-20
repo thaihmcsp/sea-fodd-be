@@ -16,8 +16,9 @@ exports.adminLogin = async function (req, res) {
             } else if (userCheck && matchPasswordUser && userCheck.role !== 'user') {
                 let token = jwt.sign({ id: userCheck._id }, jwtPass, { expiresIn: '90d' })
                 await userModel.updateOne({ _id: userCheck._id }, { token });
+                const { token: oldToken, password, ...userData} = userCheck._doc;
                 res.json({
-                    data: { token: token, role: userCheck.role, userData: userCheck },
+                    data: { token: token, role: userCheck.role, userData },
                     mess: 'oke',
                 })
             }

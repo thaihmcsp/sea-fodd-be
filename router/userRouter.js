@@ -12,6 +12,7 @@ const userCommentRouter = require('./userCommentRouter')
 const userCartsRouter = require('./userCartsRouter')
 const userAccountRouter = require('./userAccountRouter');
 const { getAllCategory, getOneCategory } = require('../controller/user/categoryController');
+const { getListOrderStatus } = require('../controller/admin/orderController');
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, './views/assets/img/avatar')
@@ -38,6 +39,7 @@ router.post('/refreshToken', userController.refeshToken);
 router.post('/logout', checkToken, userController.logOut);
 router.patch('/changePassword', checkToken, userController.changePassword);
 router.put('/', checkToken, upload.single('avatar'), userController.editUserInfor);
+router.get('/me', checkToken, authController.getMe);
 
 // carts
 router.use('/carts', userCartsRouter);
@@ -59,9 +61,10 @@ router.get('/get-one-category/:idCategory', getOneCategory);
 // order 
 
 router.get('/orders', checkToken, orderController.followOrderUser);
-router.get('/order/:idOrder', checkToken, orderController.getInforOrderSelect);
 router.post('/order', checkToken, orderController.createOrderUser);
 router.patch('/order/:idOrder', checkToken, orderController.changeOrderStatus);
+router.get('/order/filter', checkToken, orderController.filterOrder);
+router.get('/order/:idOrder', checkToken, orderController.getInforOrderSelect);
 
 // comment
 router.use('/comment', userCommentRouter)

@@ -49,6 +49,9 @@ exports.createCategories = async function (req, res) {
 
 exports.editCategories = async function (req, res) {
     try {
+        let checkDup = await categoriesModel.findOne({categoriesName: req.body.categoriesName});
+        if(checkDup) return res.status(400).json({message: 'this category is existed'});
+
         let fixCategories;
         if (req.file) {
             let newLink = req.file.path;

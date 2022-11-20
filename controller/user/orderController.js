@@ -1,6 +1,7 @@
 const cartsModel = require("../../models/cartsSchema");
 const ordersModel = require("../../models/orderSchema");
 const productModel = require("../../models/productSchema");
+const { filterProduct, filterOrder } = require("../../services/orderServices");
 
 exports.createOrderUser = async function (req, res) {
     try {
@@ -90,3 +91,16 @@ exports.changeOrderStatus = async function (req, res) {
         res.json(error);
     }
 };
+
+exports.filterOrder = async function (req, res) {
+    try {
+        console.log(97, req.user);
+        const idUser = req.user._id;
+        const {status, page, pageSize, startDate, endDate} = req.body;
+        const listOrder = await filterOrder(idUser ,status, page, pageSize, startDate, endDate);
+
+        res.status(200).json({listOrder});
+    } catch (error) {
+        res.status(500).json(error);
+    }
+}

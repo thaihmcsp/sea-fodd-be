@@ -120,3 +120,11 @@ exports.mailCodeForgotPass = async function (req, res) {
         res.json(error)
     }
 }
+
+exports.getMe = async function (req, res) {
+    try {
+        return res.status(200).json({ user: req.user });
+    } catch (error) {
+        res.status(500).json(error)
+    }
+}

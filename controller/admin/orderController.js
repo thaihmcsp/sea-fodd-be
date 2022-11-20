@@ -1,4 +1,5 @@
 const ordersModel = require("../../models/orderSchema");
+const { filterProduct, filterOrder } = require("../../services/orderServices");
 
 exports.getListOrderAd = async function (req, res) {
     try {
@@ -14,21 +15,8 @@ exports.getListOrderAd = async function (req, res) {
 exports.getListOrderStatus = async function (req, res) {
     try {
         const { status, idUser, startDate, endDate, page, pageSize } = req.query;
-        const searchQuery = {};
-        
-        if(status) searchQuery.status = status;
-        if(idUser) searchQuery.idUser = idUser;
-
-        if(startDate) searchQuery.createdAt = {$gte: new Date(startDate).toISOString()};
-        if(endDate) searchQuery.createdAt = {$lte: new Date(endDate).toISOString()};
-        if(startDate && endDate) searchQuery.createdAt = { $gte: new Date(startDate).toISOString(), $lte: new Date(endDate).toISOString() };
-
-        let listAllOrder = await ordersModel.find(searchQuery)
-            .skip((page - 1) * pageSize)
-            .limit(pageSize)
-            .populate({ path: "idUser", select: ['-token', '-password'] })
-            .populate({ path: "listProduct.idProduct"})
-        res.status(200).json(listAllOrder)
+        const listAllOrder = await filterOrder(idUser ,status, page, pageSize, startDate, endDate);
+        res.status(200).json(listAllOrder);
     } catch (error) {
         console.log(error);
         res.json(error)
@@ -68,7 +56,7 @@ exports.editOrder = async function (req, res) {
             { _id: req.params.idOrder },
             {
                 status: req.body.status,
-            },{ new: true }
+            },{ new: true, runValidators: true }
         );
 
         res.json(fixOrder);

@@ -100,7 +100,17 @@ exports.testCreateUser = async function (req, res) {
         });
         res.json(abcCreateCarts);
     } catch (error) {
-        console.log(error);
         res.json(error)
     }
 };
+
+exports.changeUserRole = async function (req, res) {
+    try {
+        const { idUser } = req.params;
+        const { role } = req.body;
+        await userModel.findOneAndUpdate({ _id: idUser }, { role }, { new: true });
+        res.status(200).json({message: 'change role success'});
+    } catch (error) {
+        res.status(500).json({ error })
+    }
+}

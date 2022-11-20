@@ -3,7 +3,6 @@ const cartsModel = require("../../models/cartsSchema");
 const { hashPassword, comparePassword } = require("../../services/auth");
 const { transporter, generateCode, sendEMail, sendCodeMail } = require("../../utils/utils");
 const { validateEmail, validatePassPartern } = require('../../utils/validate')
-const { testFillter } = require('../../services/productSearch')
 const { CodeCheck } = require("../../utils/utils");
 const codeCheck = new CodeCheck();
 const multer = require("multer");

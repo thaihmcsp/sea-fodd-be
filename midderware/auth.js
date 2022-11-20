@@ -56,4 +56,30 @@ async function checkToken(req, res, next) {
     }
 }
 
-module.exports = { checkRoleUser, checkToken }
+async function checkRoleStaff (req, res, next) {
+    try {
+        let token = req.headers.authorization
+        if (token) {
+            let id = jwt.verify(token, jwtPass).id
+            let checkIdUser = await userModel.findOne(
+                { _id: id }
+            )
+            if (checkIdUser.role !== "user") {
+                req.user = checkIdUser
+                next()
+            } else {
+                res.json({ mess: "you dont have a role" })
+            }
+        } else {
+            console.log("token is not defind");
+        }
+    } catch (error) {
+        if (error.message == 'jwt expired') {
+            res.json({ message: 'jwt expired' })
+        } else {
+            res.json(error)
+        }
+    }
+} 
+
+module.exports = { checkRoleUser, checkToken, checkRoleStaff }

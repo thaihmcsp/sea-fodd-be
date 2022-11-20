@@ -21,6 +21,7 @@ router.get('/:idUser', adminController.getInforUserSelect)
 router.post('/', adminController.testCreateUser)
 router.put('/', upload.single('avatar'), adminController.updateUserInfor)
 router.put('/:idUser', adminController.updateUserRole)
-router.delete('/:idUser', adminController.deleteUser)
+router.delete('/:idUser', adminController.deleteUser);
+router.patch('/changeRole/:idUser', adminController.changeUserRole);
 
 module.exports = router

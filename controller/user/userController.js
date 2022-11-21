@@ -27,7 +27,7 @@ exports.logOut = async function (req, res) {
         res.status(200).json({ message: "logout success" });
     } catch (error) {
         console.log(error);
-        res.json(error);
+        res.status(500).json(error);
     }
 };
 
@@ -61,7 +61,7 @@ exports.changePassword = async function (req, res) {
         }
     } catch (error) {
         console.log(error);
-        res.json(error);
+        res.status(500).json(error);
     }
 };
 
@@ -79,7 +79,7 @@ exports.checkCodeMail = async function (req, res) {
         }
     } catch (error) {
         console.log(error);
-        res.json(error)
+        res.status(500).json(error)
     }
 }
 
@@ -95,16 +95,16 @@ exports.forgotPassword = async function (req, res) {
         }
     } catch (error) {
         console.log(error);
-        res.json(error)
+        res.status(500).json(error)
     }
 }
 
 exports.getUserInfor = async function (req, res) {
     try {
-        res.json(req.user);
+        res.status(200).json(req.user);
     } catch (error) {
         console.log(error);
-        res.json(error);
+        res.status(500).json(error);
     }
 };
 
@@ -135,9 +135,9 @@ exports.editUserInfor = async function (req, res) {
                 }
             );
         }
-        res.json(userEdit);
+        res.status(200).json(userEdit);
     } catch (error) {
-        res.json(168, error);
+        res.status(500).json(error);
     }
 };
 
@@ -312,10 +312,10 @@ exports.getFillterProductCode = async function (req, res) {
                 listColor: listColor,
             }
         }
-        res.json({ listProductCode, listData });
+        res.status(200).json({ listProductCode, listData });
     } catch (error) {
         console.log(error);
-        res.json(error);
+        res.status(500).json(error);
     }
 };
 
@@ -364,10 +364,10 @@ exports.getAdllProductCode = async function (req, res) {
             dataProductCode: data,
             listSlide: listSlide,
         };
-        res.json(dataHome);
+        res.status(200).json(dataHome);
     } catch (error) {
         console.log(error);
-        res.json(error);
+        res.status(500).json(error);
     }
 };
 
@@ -376,10 +376,10 @@ exports.getListSearchInput = async function (req, res) {
         let listSearchProductCode = await producCodeModel.find({
             productName: { $regex: `.*${req.query.search}*`, $options: "i" },
         });
-        res.json(listSearchProductCode);
+        res.status(200).json(listSearchProductCode);
     } catch (error) {
         console.log(error);
-        res.json(error);
+        res.status(500).json(error);
     }
 };
 
@@ -394,10 +394,10 @@ exports.createCommentProduct = async function (req, res) {
             idProductCode: idProductCodeSelect,
             commentContent: req.body.commentContent,
         });
-        res.json(newCommentProduct);
+        res.status(200).json(newCommentProduct);
     } catch (error) {
         console.log(error);
-        res.json(error);
+        res.status(500).json(error);
     }
 };
 
@@ -411,10 +411,10 @@ exports.editCommentProduct = async function (req, res) {
                 commentContent: req.body.commentContent,
             }
         );
-        res.json(editCommentPro);
+        res.status(200).json(editCommentPro);
     } catch (error) {
         console.log(error);
-        res.json(error);
+        res.status(500).json(error);
     }
 };
 
@@ -423,10 +423,10 @@ exports.deleteCommentProduct = async function (req, res) {
         let dropComment = await commentModel.deleteOne({
             _id: req.params.idComment,
         });
-        res.json(dropComment);
+        res.status(200).json(dropComment);
     } catch (error) {
         console.log(error);
-        res.json(error);
+        res.status(500).json(error);
     }
 };
 
@@ -441,18 +441,18 @@ exports.refeshToken = async function (req, res) {
             const newToken = jwt.sign({ id: searchTokenUser._id }, jwtPass, { expiresIn: '90d' })
             console.log(52, token);
             await userModel.findOneAndUpdate({ _id: searchTokenUser._id }, { token: newToken })
-            res.json({ token: newToken });
+            res.status(200).json({ token: newToken });
         }
     } catch (error) {
         console.log(error);
-        res.json(error);
+        res.status(500).json(error);
     }
 }
 
 exports.testNewSearch = async function (req, res) {
     try {
         let test = await testFillter(req.query)
-        res.json(test)
+        res.status(200).json(test)
     } catch (error) {
         console.log(error);
     }

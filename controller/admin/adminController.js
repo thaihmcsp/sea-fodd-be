@@ -21,9 +21,9 @@ exports.searchProduct = async function (req, res) {
         let searchProductList = await producCodeModel.find(
             { productName: { $regex: req.query.search, $options: 'i' } }
         ).populate('idCategories')
-        res.json(searchProductList)
+        res.status(200).json(searchProductList)
     } catch (error) {
-        res.json(error)
+        res.status(500).json(error)
     }
 }
 
@@ -36,20 +36,19 @@ exports.getInforProductCode = async function (req, res) {
             { idProductCode: req.params.idProductCode }
         )
         selectProductCode._doc.listProduct = listProdut
-        res.json(selectProductCode);
+        res.status(200).json(selectProductCode);
     } catch (error) {
-        console.log(error);
-        res.json(error)
+        res.status(500).json(error)
     }
 };
 
 exports.getListProductCode = async function (req, res) {
     try {
         let listProductCode = await producCodeModel.find();
-        res.json(listProductCode);
+        res.status(200).json(listProductCode);
     } catch (error) {
         console.log(error);
-        res.json(error)
+        res.status(500).json(error)
     }
 };
 
@@ -91,11 +90,10 @@ exports.createProductCode = async function (req, res) {
                     createDate: new Date(),
                 });
             }
-            res.json(newProductCode);
+            res.status(200).json(newProductCode);
         }
     } catch (error) {
-        console.log(error);
-        res.json(error)
+        res.status(500).json(error)
     }
 };
 
@@ -135,10 +133,10 @@ exports.editProductCode = async function (req, res) {
                 }
             );
         }
-        res.json(editProductCode);
+        res.status(200).json(editProductCode);
     } catch (error) {
         console.log(error);
-        res.json(error)
+        res.status(500).json(error)
     }
 };
 
@@ -148,20 +146,18 @@ exports.deleteProductCodeCD = async function (req, res) {
             req.params.idProductCode
         );
         let deleteProductCD = await deleteProductCode(req.params.idProductCode);
-        res.json({ deleteProductCD, dropProductfollowPoductCode });
+        res.status(200).json({ deleteProductCD, dropProductfollowPoductCode });
     } catch (error) {
-        console.log(error);
-        res.json(error)
+        res.status(500).json(error)
     }
 };
 
 exports.getListIcon = async function (req, res) {
     try {
         let listIcon = await iconModel.find();
-        res.json(listIcon);
+        res.status(200).json(listIcon);
     } catch (error) {
-        console.log(error);
-        res.json(error)
+        res.status(500).json(error);
     }
 };
 
@@ -170,10 +166,9 @@ exports.searchIcon = async function (req, res) {
         let searchIconProduct = await iconModel.find(
             { iconName: { $regex: req.query.search, $options: 'i' } }
         )
-        res.json(searchIconProduct)
+        res.status(200).json(searchIconProduct)
     } catch (error) {
-        console.log(error);
-        res.json(error)
+        res.status(500).json(error);
     }
 }
 
@@ -193,10 +188,10 @@ exports.getNewIcon = async function (req, res) {
                 discount: req.body.discount,
             });
         }
-        res.json(newIcon);
+        res.status(200).json(newIcon);
     } catch (error) {
         console.log(error);
-        res.json(error)
+        res.status(500).json(error)
     }
 };
 
@@ -222,30 +217,30 @@ exports.editIcon = async function (req, res) {
                 }
             );
         }
-        res.json(editProduct);
+        res.status(200).json(editProduct);
     } catch (error) {
         console.log(error);
-        res.json(error)
+        res.status(500).json(error)
     }
 };
 
 exports.deleteIcon = async function (req, res) {
     try {
         let dropIcon = await iconModel.deleteOne({ _id: req.params.idIcon });
-        res.json(dropIcon);
+        res.status(200).json(dropIcon);
     } catch (error) {
         console.log(error);
-        res.json(error)
+        res.status(500).json(error)
     }
 };
 
 exports.getListSlide = async function (req, res) {
     try {
         let listSlide = await sliderModel.find();
-        res.json(listSlide);
+        res.status(200).json(listSlide);
     } catch (error) {
         console.log(error);
-        res.json(error)
+        res.status(500).json(error)
     }
 };
 
@@ -254,10 +249,10 @@ exports.searchSlide = async function (req, res) {
         let searchSlide = await sliderModel.find(
             { slideName: { $regex: req.query.search, $options: 'i' } }
         )
-        res.json(searchSlide)
+        res.status(200).json(searchSlide)
     } catch (error) {
         console.log(error);
-        res.json(error)
+        res.status(500).json(error)
     }
 }
 
@@ -276,10 +271,10 @@ exports.getNewSlide = async function (req, res) {
                 slideImg: req.body.slideImg,
             });
         }
-        res.json(newSlide);
+        res.status(200).json(newSlide);
     } catch (error) {
         console.log(error);
-        res.json(error)
+        res.status(500).json(error)
     }
 };
 
@@ -303,10 +298,10 @@ exports.editSlide = async function (req, res) {
                 }
             );
         }
-        res.json(editSlide);
+        res.status(200).json(editSlide);
     } catch (error) {
         console.log(error);
-        res.json(error)
+        res.status(500).json(error)
     }
 };
 
@@ -315,9 +310,9 @@ exports.deleteSlide = async function (req, res) {
         let dropSlide = await sliderModel.deleteOne(
             { _id: req.params.idSlide }
         )
-        res.json(dropSlide)
+        res.status(200).json(dropSlide)
     } catch (error) {
         console.log(error);
-        res.json(error)
+        res.status(500).json(error)
     }
 }

@@ -5,10 +5,10 @@ exports.getListProduct = async function (req, res) {
         let listProduct = await productModel
             .find()
             .populate("idCategory")
-        res.json(listProduct);
+        res.status(200).json(listProduct);
     } catch (error) {
         console.log(error);
-        res.json(error)
+        res.status(500).json(error)
     }
 };
 
@@ -17,10 +17,10 @@ exports.getInforProduct = async function (req, res) {
         let productSelecter = await productModel
             .findOne({ _id: req.params.idProduct })
             .populate("idCategory")
-        res.json(productSelecter);
+        res.status(200).json(productSelecter);
     } catch (error) {
         console.log(error);
-        res.json(error)
+        res.status(500).json(error)
     }
 };
 
@@ -50,9 +50,9 @@ exports.createProduct = async function (req, res) {
                 createDate: new Date(),
             });
         }
-        res.json(newProduct);
+        res.status(200).json(newProduct);
     } catch (error) {
-        res.json(error)
+        res.status(500).json(error)
     }
 };
 
@@ -91,10 +91,10 @@ exports.editProduct = async function (req, res) {
             );
         }
         await editProduct.checkStorage()
-        res.json(editProduct);
+        res.status(200).json(editProduct);
     } catch (error) {
         console.log(error);
-        res.json(error)
+        res.status(500).json(error)
     }
 };
 
@@ -106,7 +106,7 @@ exports.deleteProduct = async function (req, res) {
         let dropProduct = await productModel.deleteOne({
             _id: req.params.idProduct,
         });
-        res.json(dropProduct);
+        res.status(200).json(dropProduct);
     } catch (error) {
         console.log(error);
     }

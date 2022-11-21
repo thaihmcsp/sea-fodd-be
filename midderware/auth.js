@@ -14,16 +14,16 @@ async function checkRoleUser(req, res, next) {
                 req.user = checkIdUser
                 next()
             } else {
-                res.json({ mess: "you dont have a role" })
+                res.status(400).json({ mess: "you dont have a role" })
             }
         } else {
             console.log("token is not defind");
         }
     } catch (error) {
         if (error.message == 'jwt expired') {
-            res.json({ message: 'jwt expired' })
+            res.status(400).json({ message: 'jwt expired' })
         } else {
-            res.json(error)
+            res.status(500).json(error)
         }
     }
 }
@@ -44,14 +44,14 @@ async function checkToken(req, res, next) {
                 next()
             }
         } else {
-            res.json('cant not find user')
+            res.status(400).json('cant not find user')
 
         }
     } catch (error) {
         if (error.message == 'jwt expired') {
-            res.json({ message: 'jwt expired' })
+            res.status(400).json({ message: 'jwt expired' })
         } else {
-            res.json(error)
+            res.status(500).json(error)
         }
     }
 }
@@ -68,16 +68,16 @@ async function checkRoleStaff (req, res, next) {
                 req.user = checkIdUser
                 next()
             } else {
-                res.json({ mess: "you dont have a role" })
+                res.status(400).json({ mess: "you dont have a role" })
             }
         } else {
             console.log("token is not defind");
         }
     } catch (error) {
         if (error.message == 'jwt expired') {
-            res.json({ message: 'jwt expired' })
+            res.status(400).json({ message: 'jwt expired' })
         } else {
-            res.json(error)
+            res.status(500).json(error)
         }
     }
 } 

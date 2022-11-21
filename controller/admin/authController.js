@@ -10,22 +10,22 @@ exports.adminLogin = async function (req, res) {
         if (userCheck) {
             const matchPasswordUser = await comparePassword(password, userCheck.password);
             if (!matchPasswordUser) {
-                return res.json({ status: 'undifind password' });
+                return res.status(400).json({ status: 'undifind password' });
             } else if (userCheck && matchPasswordUser && userCheck.role === 'user') {
-                return res.json({ status: 'your account is not have permission' });
+                return res.status(400).json({ status: 'your account is not have permission' });
             } else if (userCheck && matchPasswordUser && userCheck.role !== 'user') {
                 let token = jwt.sign({ id: userCheck._id }, jwtPass, { expiresIn: '90d' })
                 await userModel.updateOne({ _id: userCheck._id }, { token });
                 const { token: oldToken, password, ...userData} = userCheck._doc;
-                res.json({
+                res.status(200).json({
                     data: { token: token, role: userCheck.role, userData },
                     mess: 'oke',
                 })
             }
         } else {
-            return res.json({ status: 'email is not available' });
+            return res.status(400).json({ status: 'email is not available' });
         }
     } catch (error) {
-        res.json(error);
+        res.status(500).json(error);
     }
 }

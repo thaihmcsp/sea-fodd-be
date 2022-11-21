@@ -59,10 +59,10 @@ exports.login = async (req, res) => {
 
         const user = await userModel.findOne({ email });
         if (!user) {
-            return res.json({ status: "user or password undifind" });
+            return res.status(400).json({ status: "user or password undifind" });
         } else {
             if (user.timeLock > Date.now()) {
-                return res.json({ status: 'account was lock please back at 1 hour later' })
+                return res.status(400).json({ status: 'account was lock please back at 1 hour later' })
             }
             // else if (user.loginExpired > new Date()) {
             //     return res.json({ status: 'account was login at another device' })
@@ -72,10 +72,10 @@ exports.login = async (req, res) => {
                 if (!matchPassword) {
                     if (user.wrongCount == 4) {
                         await userModel.updateOne({ _id: user._id }, { wrongCount: 0, timeLock: Date.now() + 3600 * 1000 });
-                        return res.json({ status: "try 1 hour late" });
+                        return res.status(400).json({ status: "try 1 hour late" });
                     } else {
                         await userModel.updateOne({ _id: user._id }, { $inc: { wrongCount: 1 } });
-                        return res.json({ status: 'undifind password' });
+                        return res.status(400).json({ status: 'undifind password' });
                     }
                 } else {
                     let token = jwt.sign({ id: user._id }, jwtPass, { expiresIn: 3600*1000*24*90 });
@@ -85,7 +85,7 @@ exports.login = async (req, res) => {
                     });
                     res.cookie("user", token, { expires: new Date(Date.now() + 3600*1000*24*90) });
                     const {token: currentToken, password: currentPassword, ...other} = user._doc;
-                    res.json({
+                    res.status(200).json({
                         data: { token: token, userData: other },
                         mess: "oke",
                     });
@@ -94,7 +94,7 @@ exports.login = async (req, res) => {
         }
         // }
     } catch (error) {
-        res.json(error);
+        res.status(500).json(error);
     }
 };
 
@@ -117,7 +117,7 @@ exports.mailCodeForgotPass = async function (req, res) {
         }
     } catch (error) {
         console.log(error);
-        res.json(error)
+        res.status(500).json(error)
     }
 }
 

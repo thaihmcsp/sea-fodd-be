@@ -4,19 +4,19 @@ const productModel = require("../../models/productSchema");
 exports.getListProdutc = async function (req, res) {
     try {
         let listProductList = await productModel.find().populate('idCategory');
-        res.json({ listProductList });
+        res.status(200).json({ listProductList });
     } catch (error) {
-        res.json(error);
+        res.status(500).json(error);
     }
 };
 
 exports.getOneProduct = async function (req, res) {
     try {
         const product = await productModel.findOne({_id: req.params.idProduct}).populate('idCategory');
-        res.json({ product });
+        res.status(200).json({ product });
     } catch (error) {
         console.log(error);
-        res.json(error);
+        res.status(500).json(error);
     }
 };
 
@@ -36,7 +36,7 @@ exports.productFilter = async function (req, res) {
         const filter = await productModel.find(searchQuery).skip((page - 1) * pageSize).limit(pageSize);
         res.status(200).json({filter});
     } catch (error) {
-        res.json(error);
+        res.status(500).json(error);
     }
 };
 

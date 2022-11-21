@@ -11,7 +11,7 @@ exports.getListCarts = async function (req, res) {
         res.status(200).json({cart: listCartsUser});
     } catch (error) {
         console.log(error);
-        res.json(error);
+        res.status(500).json(error);
     }
 };
 
@@ -60,6 +60,6 @@ exports.updateCarts = async function (req, res) {
 
     } catch (error) {
         console.log(error);
-        res.json(error);
+        res.status(500).json(error);
     }
 };

@@ -5,20 +5,20 @@ const fs = require('fs');
 exports.getListUser = async function (req, res) {
     try {
         let listUser = await userModel.find();
-        res.json(listUser);
+        res.status(200).json(listUser);
     } catch (error) {
         console.log(error);
-        res.json(error)
+        res.status(500).json(error)
     }
 };
 
 exports.getInforUserSelect = async function (req, res) {
     try {
         let userSelecter = await userModel.findOne({ _id: req.params.idUser });
-        res.json(userSelecter);
+        res.status(200).json(userSelecter);
     } catch (error) {
         console.log(error);
-        res.json(error)
+        res.status(500).json(error)
     }
 };
 
@@ -51,10 +51,10 @@ exports.updateUserInfor = async function (req, res) {
                 }
             );
         }
-        res.json(updateUser);
+        res.status(200).json(updateUser);
     } catch (error) {
         console.log(error);
-        res.json(error)
+        res.status(500).json(error)
     }
 };
 
@@ -67,10 +67,10 @@ exports.updateUserRole = async function (req, res) {
             }
         );
 
-        res.json(updateUser);
+        res.status(200).json(updateUser);
     } catch (error) {
         console.log(error);
-        res.json(error)
+        res.status(500).json(error)
     }
 };
 
@@ -82,10 +82,10 @@ exports.deleteUser = async function (req, res) {
         let dropUser = await userModel.findOneAndDelete({ _id: req.params.idUser });
         fs.unlink(dropUser.avatar.slice(1), (err) => {return});
 
-        res.json({ dropUser, dropCartsUser });
+        res.status(200).json({ dropUser, dropCartsUser });
     } catch (error) {
         console.log(error);
-        res.json(error)
+        res.status(500).json(error)
     }
 };
 
@@ -98,9 +98,9 @@ exports.testCreateUser = async function (req, res) {
         let abcCreateCarts = await cartsModel.create({
             idUser: abc._id,
         });
-        res.json(abcCreateCarts);
+        res.status(200).json(abcCreateCarts);
     } catch (error) {
-        res.json(error)
+        res.status(500).json(error)
     }
 };
 

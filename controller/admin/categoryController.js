@@ -7,7 +7,7 @@ exports.getListCategories = async function (req, res) {
         let allCategories = await categoriesModel.find();
         res.status(200).json(allCategories);
     } catch (error) {
-        res.json(error);
+        res.status(500).json(error);
     }
 };
 
@@ -16,10 +16,10 @@ exports.getInforCategories = async function (req, res) {
         let selectCategories = await categoriesModel.findOne({
             _id: req.params.idCategories,
         });
-        res.json(selectCategories);
+        res.status(200).json(selectCategories);
     } catch (error) {
         console.log(error);
-        res.json(error)
+        res.status(500).json(error)
     }
 };
 
@@ -43,7 +43,7 @@ exports.createCategories = async function (req, res) {
         }
         res.status(200).json(newCategories);
     } catch (error) {
-        res.json(error);
+        res.status(500).json(error);
     }
 };
 
@@ -73,7 +73,7 @@ exports.editCategories = async function (req, res) {
         }
         res.status(200).json(fixCategories);
     } catch (error) {
-        res.json(error);
+        res.status(500).json(error);
     }
 };
 
@@ -90,6 +90,6 @@ exports.deleteCategories = async function (req, res) {
 
         res.status(200).json({ message: 'delete success'});
     } catch (error) {
-        res.json(error);
+        res.status(500).json(error);
     }
 };

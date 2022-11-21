@@ -36,9 +36,9 @@ exports.createOrderUser = async function (req, res) {
             { idUser: req.user._id },
             { listProduct: [] }
         );
-        res.json(newOrderUser);
+        res.status(200).json(newOrderUser);
     } catch (error) {
-        res.json(error);
+        res.status(500).json(error);
     }
 };
 
@@ -47,7 +47,7 @@ exports.followOrderUser = async function (req, res) {
         let listOrderUser = await ordersModel
             .find({ idUser: req.user._id })
             .populate({ path: "listProduct.idProduct"})
-        res.json(listOrderUser);
+        res.status(200).json(listOrderUser);
     } catch (error) {
         console.log(error);
     }
@@ -58,10 +58,10 @@ exports.getInforOrderSelect = async function (req, res) {
         let inforOrderSelect = await ordersModel
             .findOne({ _id: req.params.idOrder })
             .populate({ path: "listProduct.idProduct" });
-        res.json(inforOrderSelect);
+        res.status(200).json(inforOrderSelect);
     } catch (error) {
         console.log(error);
-        res.json(error);
+        res.status(500).json(error);
     }
 };
 
@@ -85,10 +85,10 @@ exports.changeOrderStatus = async function (req, res) {
             }
         }
         
-        res.json(newOrder);
+        res.status(200).json(newOrder);
     } catch (error) {
         console.log(error);
-        res.json(error);
+        res.status(500).json(error);
     }
 };
 

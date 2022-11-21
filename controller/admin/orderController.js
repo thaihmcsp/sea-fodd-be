@@ -8,7 +8,7 @@ exports.getListOrderAd = async function (req, res) {
             .populate({ path: "idUser", select: ['-token', '-password'] });
         res.status(200).json(listOrderAd);
     } catch (error) {
-        res.json(error)
+        res.status(500).json(error)
     }
 };
 
@@ -19,7 +19,7 @@ exports.getListOrderStatus = async function (req, res) {
         res.status(200).json(listAllOrder);
     } catch (error) {
         console.log(error);
-        res.json(error)
+        res.status(500).json(error)
     }
 }
 
@@ -30,10 +30,10 @@ exports.getInforOrderSelect = async function (req, res) {
             .populate({ path: "idUser", select: ['-token', '-password'] })
             .populate({ path: "listProduct.idProduct"});
 
-        res.json(orderSelect);
+            res.status(200).json(orderSelect);
     } catch (error) {
         console.log(error);
-        res.json(error)
+        res.status(500).json(error)
     }
 };
 
@@ -43,10 +43,10 @@ exports.getListOrderFromUser = async function (req, res) {
             .find({ idUser: req.params.idUer })
             .populate("listProduct.idProduct")
             .populate({ path: "idUser", select: ['-token', '-password'] });
-        res.json(listOrderFromUser);
+        res.status(200).json(listOrderFromUser);
     } catch (error) {
         console.log(error);
-        res.json(error)
+        res.status(500).json(error)
     }
 };
 
@@ -59,20 +59,20 @@ exports.editOrder = async function (req, res) {
             },{ new: true, runValidators: true }
         );
 
-        res.json(fixOrder);
+        res.status(200).json(fixOrder);
     } catch (error) {
         console.log(error);
-        res.json(error)
+        res.status(500).json(error)
     }
 };
 
 exports.deleteOrder = async function (req, res) {
     try {
         let dropOrder = await ordersModel.deleteOne({ _id: req.params.idOrder });
-        res.json(dropOrder);
+        res.status(200).json(dropOrder);
     } catch (error) {
         console.log(error);
-        res.json(error)
+        res.status(500).json(error)
     }
 };
 
@@ -88,10 +88,10 @@ exports.testCreateOrder = async function (req, res) {
                 status: req.body.status,
             }
         )
-        res.json(newOrderFake)
+        res.status(200).json(newOrderFake)
     } catch (error) {
         console.log(error);
-        res.json(error)
+        res.status(500).json(error)
     }
 }
 
@@ -109,10 +109,10 @@ exports.testEditOrder = async function (req, res) {
                 listProduct: req.body.listProduct
             }
         )
-        res.json(editOrder)
+        res.status(200).json(editOrder)
     } catch (error) {
         console.log(error);
-        res.json(error)
+        res.status(500).json(error)
     }
 }
 
@@ -121,9 +121,9 @@ exports.testDeleteOrder = async function (req, res) {
         let testdropOrder = await ordersModel.deleteOne(
             { _id: req.params.idOrder }
         )
-        res.json(testdropOrder)
+        res.status(200).json(testdropOrder)
     } catch (error) {
         console.log(error);
-        res.json(error)
+        res.status(500).json(error)
     }
 }

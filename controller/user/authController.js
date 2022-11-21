@@ -16,9 +16,11 @@ exports.register = async function (req, res) {
             if (alreadyExistEmail) {
                 return res.status(400).json({ message: "Email already exists" });
             } else {
+                const username = email.slice(0, email.indexOf('@'));
                 const hashed = await hashPassword(password);
                 const newUser = await userModel.create({
                     // email: email,
+                    username: username,
                     password: hashed,
                 });
                 const newCart = await cartsModel.create({ idUser: newUser._id });

@@ -14,7 +14,7 @@ exports.register = async function (req, res) {
         if (validateEmail(email) && validatePassPartern(password)) {
             const alreadyExistEmail = await userModel.findOne({ email: email });
             if (alreadyExistEmail) {
-                return res.status(400).json({ status: "Email already exists" });
+                return res.status(400).json({ message: "Email already exists" });
             } else {
                 const hashed = await hashPassword(password);
                 const newUser = await userModel.create({

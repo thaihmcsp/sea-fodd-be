@@ -6,7 +6,7 @@ const { filterProduct, filterOrder } = require("../../services/orderServices");
 exports.createOrderUser = async function (req, res) {
     try {
         let listProduct = await cartsModel.findOne({ idUser: req.user._id });
-        let  = listProduct.listProduct;
+        let listProductOrder = listProduct.listProduct;
 
         // change storage and calculate total price
         let total = 0;

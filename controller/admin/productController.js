@@ -61,6 +61,11 @@ exports.createProduct = async function (req, res) {
 exports.editProduct = async function (req, res) {
     try {
         let editProduct;
+        if(req.body.productName){
+            const checkDup = await productModel.findOne({productName: req.body.productName, _id: { $ne: req.params.idProduct}});
+            if(checkDup) return res.status(400).json({message: 'this product is existed'});
+        }
+
         if (req.file) {
             const product = await productModel.findOne({ _id: req.params.idProduct });
             fs.unlink(product.productPic[0].slice(1), function(err){ return });

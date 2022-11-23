@@ -3,7 +3,7 @@ const productModel = require("../../models/productSchema");
 
 exports.getListProdutc = async function (req, res) {
     try {
-        let listProductList = await productModel.find().populate('idCategory');
+        let listProductList = await productModel.find({storage: {$gt: 0}}).populate('idCategory');
         res.status(200).json({ listProductList });
     } catch (error) {
         res.status(500).json(error);

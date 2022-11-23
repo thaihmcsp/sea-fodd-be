@@ -14,7 +14,7 @@ async function checkRoleUser(req, res, next) {
                 req.user = checkIdUser
                 next()
             } else {
-                res.status(400).json({ mess: "you dont have a role" })
+                res.status(400).json({ mess: "you dont have permission" })
             }
         } else {
             console.log("token is not defind");
@@ -67,7 +67,7 @@ async function checkRoleStaff (req, res, next) {
                 req.user = checkIdUser
                 next()
             } else {
-                res.status(400).json({ mess: "you dont have a role" })
+                res.status(400).json({ mess: "you don't have permission" })
             }
         } else {
             console.log("token is not defind");

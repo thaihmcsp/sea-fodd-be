@@ -134,7 +134,8 @@ exports.productFilter = async function (req, res) {
         if(low) searchQuery.price = { $gte: low};
         if(high && low) searchQuery.price = { $lte: high, $gte: low};
         const filter = await productModel.find(searchQuery).skip((page - 1) * pageSize).limit(pageSize);
-        res.status(200).json({filter});
+        const total = await productModel.count();
+        res.status(200).json({filter, total});
     } catch (error) {
         res.status(500).json(error);
     }

@@ -23,7 +23,7 @@ exports.getOneProduct = async function (req, res) {
 exports.productFilter = async function (req, res) {
     try {
         const { productName, idCategory, page, pageSize, high, low } = req.query;
-        const searchQuery = {};
+        const searchQuery = {storage: { $gt: 0 }};
 
         if(productName) searchQuery.productName = {$regex: productName, $options: 'i'};
 

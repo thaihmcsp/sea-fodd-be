@@ -61,7 +61,7 @@ exports.login = async (req, res) => {
 
         const user = await userModel.findOne({ email });
         if (!user) {
-            return res.status(400).json({ status: "user or password undifind" });
+            return res.status(400).json({ status: "user or password undefined" });
         } else {
             if (user.timeLock > Date.now()) {
                 return res.status(400).json({ status: 'account was lock please back at 1 hour later' })
@@ -77,7 +77,7 @@ exports.login = async (req, res) => {
                         return res.status(400).json({ status: "try 1 hour late" });
                     } else {
                         await userModel.updateOne({ _id: user._id }, { $inc: { wrongCount: 1 } });
-                        return res.status(400).json({ status: 'undifind password' });
+                        return res.status(400).json({ status: 'undefined password' });
                     }
                 } else {
                     let token = jwt.sign({ id: user._id }, jwtPass, { expiresIn: 3600*1000*24*90 });

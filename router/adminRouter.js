@@ -5,9 +5,9 @@ const productRouter = require('./adminProductRouter')
 const userRouter = require('./adminUserRouter')
 const orderRouter = require('./adminOrderRouter')
 const authRouter = require('./adminAuthRouter')
-const { checkRoleUser } = require('../midderware/auth');
+const { checkRoleStaff } = require('../midderware/auth');
 router.use('/auth', authRouter)
-router.use(checkRoleUser)
+router.use(checkRoleStaff)
 router.use('/categories', categoriesRouter);
 router.use('/product', productRouter);
 router.use('/user', userRouter);

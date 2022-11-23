@@ -10,7 +10,7 @@ exports.staffLogin = async function (req, res) {
         if (userCheck) {
             const matchPasswordUser = await comparePassword(password, userCheck.password);
             if (!matchPasswordUser) {
-                return res.status(400).json({ status: 'undifind password' });
+                return res.status(400).json({ status: 'undefined password' });
             } else if (userCheck && matchPasswordUser && userCheck.role === 'user') {
                 return res.status(400).json({ status: 'your account is not have permission' });
             } else if (userCheck && matchPasswordUser && userCheck.role !== 'user') {

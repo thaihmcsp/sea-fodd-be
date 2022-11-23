@@ -31,7 +31,6 @@ exports.createProduct = async function (req, res) {
 
         const checkDup = await productModel.findOne({productName: req.body.productName});
         if(checkDup) return res.status(400).json({message: 'this product is existed'});
-
         if (req.file) {
             newProduct = await productModel.create({
                 productName: req.body.productName,
@@ -49,7 +48,8 @@ exports.createProduct = async function (req, res) {
                 price: req.body.price,
                 storage: req.body.storage,
                 createDate: new Date(),
-                unit: req.body.unit
+                unit: req.body.unit,
+                productPic: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYTzj3XRf3wprzGJD2x83XA59JHEuqsXBWOLg1U5zD-w&s'
             });
         }
         res.status(200).json(newProduct);

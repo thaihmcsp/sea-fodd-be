@@ -45,7 +45,6 @@ async function checkToken(req, res, next) {
             }
         } else {
             res.status(400).json('cant not find user')
-
         }
     } catch (error) {
         if (error.message == 'jwt expired') {

@@ -8,7 +8,8 @@ const productSchema = mongoose.Schema(
         productPic: [{ type: String, default: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYTzj3XRf3wprzGJD2x83XA59JHEuqsXBWOLg1U5zD-w&s' }],
         createDate: Date,
         productName: String,
-        isActive: { type: Boolean, default: true}
+        isActive: { type: Boolean, default: true},
+        unit: String
     }, { collection: 'product' }
 )
 

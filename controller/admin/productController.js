@@ -40,6 +40,7 @@ exports.createProduct = async function (req, res) {
                 storage: req.body.storage,
                 productPic: "/" + req.file.path,
                 createDate: new Date(),
+                unit: req.body.unit
             });
         } else {
             newProduct = await productModel.create({
@@ -48,6 +49,7 @@ exports.createProduct = async function (req, res) {
                 price: req.body.price,
                 storage: req.body.storage,
                 createDate: new Date(),
+                unit: req.body.unit
             });
         }
         res.status(200).json(newProduct);
@@ -72,7 +74,8 @@ exports.editProduct = async function (req, res) {
                     storage: req.body.storage,
                     productPic: "/" + req.file.path,
                     createDate: new Date(),
-                    isActive: req.body.isActive
+                    isActive: req.body.isActive,
+                    unit: req.body.unit
                 },
                 { new: true }
             );
@@ -85,7 +88,8 @@ exports.editProduct = async function (req, res) {
                     price: req.body.price,
                     storage: req.body.storage,
                     createDate: new Date(),    
-                    isActive: req.body.isActive            
+                    isActive: req.body.isActive,
+                    unit: req.body.unit       
                 },
                 { new: true }
             );
